@@ -1,5 +1,6 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Dashboard from "./components/Dashboard";
 import LeadForm from "./components/LeadForm";
 import LeadTable from "./components/LeadTable";
@@ -10,6 +11,9 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+  fetchLeads();
+}, []);
 
   const filteredLeads = leads.filter((lead) => {
     const matchesSearch =
@@ -23,9 +27,30 @@ function App() {
     return matchesSearch && matchesStatus;
   });
 
-  const addLead = (lead) => {
-    setLeads([...leads, lead]);
-  };
+  const fetchLeads = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:5000/leads"
+    );
+
+    setLeads(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  const addLead = async (lead) => {
+  try {
+    await axios.post(
+      "http://localhost:5000/leads",
+      lead
+    );
+
+    fetchLeads();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const updateStatus = (index, status) => {
     const updatedLeads = [...leads];
