@@ -52,6 +52,18 @@ function App() {
   }
 };
 
+const deleteLead = async (index) => {
+  try {
+    await axios.delete(
+      `http://localhost:5000/leads/${index}`
+    );
+
+    fetchLeads();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   const updateStatus = (index, status) => {
     const updatedLeads = [...leads];
     updatedLeads[index].status = status;
@@ -97,9 +109,10 @@ function App() {
       </div>
 
       <LeadTable
-        leads={filteredLeads}
-        updateStatus={updateStatus}
-      />
+  leads={filteredLeads}
+  updateStatus={updateStatus}
+  deleteLead={deleteLead}
+/>
     </div>
   );
 }

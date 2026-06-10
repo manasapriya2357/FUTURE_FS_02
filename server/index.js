@@ -30,6 +30,17 @@ app.post("/leads", (req, res) => {
   });
 });
 
+// Delete Lead
+app.delete("/leads/:index", (req, res) => {
+  const index = parseInt(req.params.index);
+
+  leads.splice(index, 1);
+
+  res.json({
+    message: "Lead Deleted Successfully",
+  });
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

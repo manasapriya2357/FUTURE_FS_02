@@ -1,17 +1,22 @@
-function LeadTable({ leads, updateStatus }) {
+function LeadTable({
+  leads,
+  updateStatus,
+  deleteLead,
+}) {
   return (
     <div className="lead-table">
       <h2>Leads</h2>
 
       <table>
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Source</th>
-                <th>Status</th>
-                <th>Notes</th>
-            </tr>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
         </thead>
 
         <tbody>
@@ -38,7 +43,18 @@ function LeadTable({ leads, updateStatus }) {
                   <option>Converted</option>
                 </select>
               </td>
+
               <td>{lead.notes}</td>
+
+              <td>
+                <button
+                  onClick={() =>
+                    deleteLead(index)
+                  }
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
