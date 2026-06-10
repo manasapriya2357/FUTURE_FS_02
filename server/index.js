@@ -41,6 +41,17 @@ app.delete("/leads/:index", (req, res) => {
   });
 });
 
+// Update Lead
+app.put("/leads/:index", (req, res) => {
+  const index = parseInt(req.params.index);
+
+  leads[index] = req.body;
+
+  res.json({
+    message: "Lead Updated Successfully",
+  });
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

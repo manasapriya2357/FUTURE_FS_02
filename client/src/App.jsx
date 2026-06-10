@@ -71,19 +71,23 @@ const editLead = (lead, index) => {
   setEditingIndex(index);
 };
 
-const updateLead = (updatedLead) => {
-  const updatedLeads = [...leads];
+const updateLead = async (updatedLead) => {
+  try {
+    await axios.put(
+      `http://localhost:5000/leads/${editingIndex}`,
+      {
+        ...updatedLead,
+        status: leads[editingIndex].status,
+      }
+    );
 
-  updatedLeads[editingIndex] = {
-    ...updatedLead,
-    status:
-      updatedLeads[editingIndex].status,
-  };
+    fetchLeads();
 
-  setLeads(updatedLeads);
-
-  setEditingLead(null);
-  setEditingIndex(null);
+    setEditingLead(null);
+    setEditingIndex(null);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
   const updateStatus = (index, status) => {
