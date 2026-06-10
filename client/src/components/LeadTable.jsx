@@ -2,65 +2,75 @@ function LeadTable({
   leads,
   updateStatus,
   deleteLead,
+  editLead,
 }) {
-  return (
-    <div className="lead-table">
-      <h2>Leads</h2>
+return ( <div className="lead-table"> <h2>Leads</h2>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Source</th>
-            <th>Status</th>
-            <th>Notes</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+```
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Source</th>
+        <th>Status</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-        <tbody>
-          {leads.map((lead, index) => (
-            <tr key={index}>
-              <td>{lead.name}</td>
+    <tbody>
+      {leads.map((lead, index) => (
+        <tr key={index}>
+          <td>{lead.name}</td>
 
-              <td>{lead.email}</td>
+          <td>{lead.email}</td>
 
-              <td>{lead.source}</td>
+          <td>{lead.source}</td>
 
-              <td>
-                <select
-                  value={lead.status}
-                  onChange={(e) =>
-                    updateStatus(
-                      index,
-                      e.target.value
-                    )
-                  }
-                >
-                  <option>New</option>
-                  <option>Contacted</option>
-                  <option>Converted</option>
-                </select>
-              </td>
+          <td>
+            <select
+              value={lead.status}
+              onChange={(e) =>
+                updateStatus(
+                  index,
+                  e.target.value
+                )
+              }
+            >
+              <option>New</option>
+              <option>Contacted</option>
+              <option>Converted</option>
+            </select>
+          </td>
 
-              <td>{lead.notes}</td>
+          <td>{lead.notes}</td>
 
-              <td>
-                <button
-                  onClick={() =>
-                    deleteLead(index)
-                  }
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+          <td>
+            <button
+            onClick={() =>
+              editLead(lead, index)
+            }
+          >
+  Edit
+</button>
+
+            <button
+              onClick={() =>
+                deleteLead(index)
+              }
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
+);
 }
 
 export default LeadTable;

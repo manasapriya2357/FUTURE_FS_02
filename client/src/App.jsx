@@ -11,6 +11,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [editingLead, setEditingLead] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
   useEffect(() => {
   fetchLeads();
 }, []);
@@ -64,6 +66,26 @@ const deleteLead = async (index) => {
   }
 };
 
+const editLead = (lead, index) => {
+  setEditingLead(lead);
+  setEditingIndex(index);
+};
+
+const updateLead = (updatedLead) => {
+  const updatedLeads = [...leads];
+
+  updatedLeads[editingIndex] = {
+    ...updatedLead,
+    status:
+      updatedLeads[editingIndex].status,
+  };
+
+  setLeads(updatedLeads);
+
+  setEditingLead(null);
+  setEditingIndex(null);
+};
+
   const updateStatus = (index, status) => {
     const updatedLeads = [...leads];
     updatedLeads[index].status = status;
@@ -85,7 +107,11 @@ const deleteLead = async (index) => {
 
       <Dashboard leads={leads} />
 
-      <LeadForm addLead={addLead} />
+      <LeadForm
+  addLead={addLead}
+  editingLead={editingLead}
+  updateLead={updateLead}
+/>
 
       <div className="search-box">
         <input
@@ -112,6 +138,7 @@ const deleteLead = async (index) => {
   leads={filteredLeads}
   updateStatus={updateStatus}
   deleteLead={deleteLead}
+  editLead={editLead}
 />
     </div>
   );

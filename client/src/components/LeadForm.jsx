@@ -1,40 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function LeadForm({ addLead }) {
- const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  phone: "",
-  source: "",
-  notes: "",
-});
+function LeadForm({
+  addLead,
+  editingLead,
+  updateLead,
+}) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    source: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    if (editingLead) {
+      setFormData(editingLead);
+    }
+  }, [editingLead]);
 
   const handleChange = (e) => {
-  setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-  });
-};
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    addLead({
-      ...formData,
-      status: "New",
-    });
+    if (editingLead) {
+      updateLead(formData);
+    } else {
+      addLead({
+        ...formData,
+        status: "New",
+      });
+    }
 
     setFormData({
-  name: "",
-  email: "",
-  phone: "",
-  source: "",
-  notes: "",
-});
+      name: "",
+      email: "",
+      phone: "",
+      source: "",
+      notes: "",
+    });
   };
 
   return (
     <div className="lead-form">
-      <h2>Add Lead</h2>
+      <h2>
+        {editingLead
+          ? "Edit Lead"
+          : "Add Lead"}
+      </h2>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -70,15 +89,17 @@ function LeadForm({ addLead }) {
         />
 
         <input
-        type="text"
-        name="notes"
-        placeholder="Notes / Follow-up"
-        value={formData.notes}
-        onChange={handleChange}
+          type="text"
+          name="notes"
+          placeholder="Notes / Follow-up"
+          value={formData.notes}
+          onChange={handleChange}
         />
 
         <button type="submit">
-          Add Lead
+          {editingLead
+            ? "Update Lead"
+            : "Add Lead"}
         </button>
       </form>
     </div>
