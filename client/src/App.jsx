@@ -54,10 +54,10 @@ function App() {
   }
 };
 
-const deleteLead = async (index) => {
+const deleteLead = async (id) => {
   try {
     await axios.delete(
-      `http://localhost:5000/leads/${index}`
+      `http://localhost:5000/leads/${id}`
     );
 
     fetchLeads();

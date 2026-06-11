@@ -59,11 +59,11 @@ return ( <div className="lead-table"> <h2>Leads</h2>
 </button>
 
             <button
-              onClick={() =>
-                deleteLead(index)
-              }
-            >
-              Delete
+                onClick={() =>
+                  deleteLead(lead._id)
+                }
+              >
+                Delete
             </button>
           </td>
         </tr>
