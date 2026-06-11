@@ -17,6 +17,7 @@ return ( <div className="lead-table"> <h2>Leads</h2>
         <th>Status</th>
         <th>Notes</th>
         <th>Actions</th>
+        <th>Created</th>
       </tr>
     </thead>
 
@@ -66,6 +67,13 @@ return ( <div className="lead-table"> <h2>Leads</h2>
                 Delete
             </button>
           </td>
+          <td>
+          {lead.createdAt
+            ? new Date(
+                lead.createdAt
+              ).toLocaleDateString()
+            : "N/A"}
+        </td>
         </tr>
       ))}
     </tbody>

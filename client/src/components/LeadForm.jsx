@@ -27,25 +27,33 @@ function LeadForm({
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (editingLead) {
-      updateLead(formData);
-    } else {
-      addLead({
-        ...formData,
-        status: "New",
-      });
-    }
+  if (
+    !formData.name ||
+    !formData.email ||
+    !formData.phone ||
+    !formData.source
+  ) {
+    alert(
+      "Please fill all required fields"
+    );
+    return;
+  }
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      source: "",
-      notes: "",
-    });
-  };
+  addLead({
+    ...formData,
+    status: "New",
+  });
+
+  setFormData({
+    name: "",
+    email: "",
+    phone: "",
+    source: "",
+    notes: "",
+  });
+};
 
   return (
     <div className="lead-form">

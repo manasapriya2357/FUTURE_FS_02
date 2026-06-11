@@ -8,8 +8,8 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     if (
-      username === "admin" &&
-      password === "admin123"
+      username === "manasa" &&
+      password === "crm2026"
     ) {
       onLogin();
     } else {

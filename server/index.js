@@ -25,15 +25,39 @@ mongoose
   });
 
 // Lead Schema
-const leadSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  phone: String,
-  source: String,
-  notes: String,
-  status: String,
-});
+const leadSchema = new mongoose.Schema(
+{
+  name: {
+    type: String,
+    required: true,
+  },
 
+  email: {
+    type: String,
+    required: true,
+  },
+
+  phone: {
+    type: String,
+    required: true,
+  },
+
+  source: {
+    type: String,
+    required: true,
+  },
+
+  notes: String,
+
+  status: {
+    type: String,
+    default: "New",
+  },
+},
+{
+  timestamps: true,
+}
+);
 const Lead = mongoose.model("Lead", leadSchema);
 
 // Home Route
