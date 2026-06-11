@@ -90,20 +90,34 @@ const updateLead = async (updatedLead) => {
   }
 };
 
-  const updateStatus = (index, status) => {
-    const updatedLeads = [...leads];
-    updatedLeads[index].status = status;
-    setLeads(updatedLeads);
-  };
+  const updateStatus = async (index, status) => {
+  try {
+    const lead = leads[index];
 
-  // Login Check
-  if (!isLoggedIn) {
-    return (
-      <Login
-        onLogin={() => setIsLoggedIn(true)}
-      />
+    await axios.put(
+      `http://localhost:5000/leads/${lead._id}`,
+      {
+        ...lead,
+        status,
+      }
     );
+
+    fetchLeads();
+  } catch (error) {
+    console.error(error);
   }
+};
+
+// Login Check
+if (!isLoggedIn) {
+  return (
+    <Login
+      onLogin={() => setIsLoggedIn(true)}
+    />
+  );
+}
+
+
 
   return (
     <div className="app">

@@ -12,6 +12,7 @@ return ( <div className="lead-table"> <h2>Leads</h2>
       <tr>
         <th>Name</th>
         <th>Email</th>
+        <th>Phone</th>
         <th>Source</th>
         <th>Status</th>
         <th>Notes</th>
@@ -25,6 +26,8 @@ return ( <div className="lead-table"> <h2>Leads</h2>
           <td>{lead.name}</td>
 
           <td>{lead.email}</td>
+
+          <td>{lead.phone}</td>
 
           <td>{lead.source}</td>
 

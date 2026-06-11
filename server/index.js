@@ -1,13 +1,40 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Temporary Lead Storage
-let leads = [];
+console.log("URI Loaded:", process.env.MONGO_URI);
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+    console.log(
+      "Ready State:",
+      mongoose.connection.readyState
+    );
+  })
+  .catch((err) => {
+    console.log("❌ Connection Error:", err);
+  });
+
+// Lead Schema
+const leadSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: String,
+  source: String,
+  notes: String,
+  status: String,
+});
+
+const Lead = mongoose.model("Lead", leadSchema);
 
 // Home Route
 app.get("/", (req, res) => {
@@ -15,15 +42,16 @@ app.get("/", (req, res) => {
 });
 
 // Get All Leads
-app.get("/leads", (req, res) => {
+app.get("/leads", async (req, res) => {
+  const leads = await Lead.find();
   res.json(leads);
 });
 
 // Add Lead
-app.post("/leads", (req, res) => {
-  const lead = req.body;
+app.post("/leads", async (req, res) => {
+  const lead = new Lead(req.body);
 
-  leads.push(lead);
+  await lead.save();
 
   res.status(201).json({
     message: "Lead Added Successfully",
@@ -31,10 +59,8 @@ app.post("/leads", (req, res) => {
 });
 
 // Delete Lead
-app.delete("/leads/:index", (req, res) => {
-  const index = parseInt(req.params.index);
-
-  leads.splice(index, 1);
+app.delete("/leads/:id", async (req, res) => {
+  await Lead.findByIdAndDelete(req.params.id);
 
   res.json({
     message: "Lead Deleted Successfully",
@@ -42,10 +68,11 @@ app.delete("/leads/:index", (req, res) => {
 });
 
 // Update Lead
-app.put("/leads/:index", (req, res) => {
-  const index = parseInt(req.params.index);
-
-  leads[index] = req.body;
+app.put("/leads/:id", async (req, res) => {
+  await Lead.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  );
 
   res.json({
     message: "Lead Updated Successfully",
